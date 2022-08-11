@@ -22,7 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
-router.register(r'caseStusies',TaskViewSet)
+router.register(r'caseStudies',TaskViewSet)
 
 
 
