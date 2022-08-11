@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'EORDatabase.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd6rr40thoj2s7j',
+        'USER': 'jveyxwjkqgpdro',
+        'PASSWORD': 'bfebfc0802ae388fbba90a205fe56dcf7ba3881bc05d643f838eac49e527130e',
+        'HOST': 'ec2-44-208-88-195.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
