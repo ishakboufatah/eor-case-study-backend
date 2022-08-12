@@ -1,7 +1,22 @@
 from rest_framework import serializers
-from .models import CaseStudies
+from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology
 
-class TaskSerializer(serializers.HyperlinkedModelSerializer):
+class EORTechniquesTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EORTechniques
+        fields = '__all__'
+class EORsubTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EORsubType
+        fields = '__all__'
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = '__all__'
+class TaskSerializer(serializers.ModelSerializer):
+    country = serializers.SlugRelatedField(slug_field='Country', queryset=Country.objects.all())
+    EOR_Type= EORsubTypeSerializer( )
+    Lithology= serializers.SlugRelatedField(slug_field='Lithology', queryset=Lithology.objects.all())
     class Meta:
         model = CaseStudies
         fields = ('CaseStudies_id', 'Field', 'Pool_Name','summary','image1','image2','image3',
@@ -15,3 +30,15 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
         'Incremental_WF_Recovery_Factor_fraction','Incremental_EOR_Recovery_Factor_fraction',
         'Total_Recovery_Factor_fraction','OOIP_E3m3','Remaining_Oil_in_Place_E3m3_after_Primary_EOR_Recovery',
         'Remaining_Recoverable_Reserves_E3m3')
+"""      
+
+
+
+'Lithology','Initial_Pressure_kPa',
+        'Initial_Temperature_C','Oil_Gravity_API','Oil_Density_kgm3','Oil_Viscosity_15C_cp',
+        'Oil_Viscosity_Tr_cp','Salinity_of_Formation_Water_ppm','Presence_of_Natural_Fractures',
+        'Presence_of_Gas_Cap','Area_of_Project_ha','Primary_Recovery_Factor_fraction',
+        'Incremental_WF_Recovery_Factor_fraction','Incremental_EOR_Recovery_Factor_fraction',
+        'Total_Recovery_Factor_fraction','OOIP_E3m3','Remaining_Oil_in_Place_E3m3_after_Primary_EOR_Recovery',
+        'Remaining_Recoverable_Reserves_E3m3'
+"""
