@@ -46,7 +46,7 @@ class CaseStudies(models.Model):
     CaseStudies_id = models.BigAutoField(primary_key=True)
     Field = models.CharField(max_length=50)
     Pool_Name = models.CharField(max_length=50,blank=True)
-    summary = models.CharField(max_length=10000,blank=True)
+    summary = models.TextField(max_length=10000,blank=True)
     image1 = models.ImageField(upload_to='image/',null=True,blank=True)
     image2 = models.ImageField(upload_to='image/',null=True,blank=True)
     image3 = models.ImageField(upload_to='image/',null=True,blank=True)
