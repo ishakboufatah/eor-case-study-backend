@@ -19,7 +19,7 @@ class TaskSerializer(serializers.ModelSerializer):
     lithology= serializers.SlugRelatedField(slug_field='lithology', queryset=Lithology.objects.raw("SELECT * from casestudies_lithology"))
     class Meta:
         model = CaseStudies
-        fields = ('casestudies_id','field','pool_name','summary','image1','image2','image3','image4','image5','image6','formation',
+        fields = ('casestudies_id','field','pool_name','summary','formation',
         'country_id','eor_subtype_id','flood_type','number_of_wells','number_of_eor_injectors','number_of_eor_producers',
         'discovery_date','eor_start_year','secondary_recovery','eor_1','eor_2','eor_3','eor_4',
         'depth_m','average_pay_thickness_m','average_permeability_md','average_porosity','water_saturation',
@@ -34,7 +34,7 @@ class JoinCaseStudiesSerializer(serializers.ModelSerializer):
         fields ='__all__'
 
         """
-        ('casestudies_id','field','pool_name','summary','image1','image2','image3','image4','image5','image6','formation',
+        ('casestudies_id','field','pool_name','summary','formation',
         'country','eor_type','eor_sub_type','flood_type','number_of_wells','number_of_eor_injectors','number_of_eor_producers',
         'discovery_date','eor_start_year','secondary_recovery','eor_1','eor_2','eor_3','eor_4',
         'depth_m','average_pay_thickness_m','average_permeability_md','average_porosity','water_saturation',
