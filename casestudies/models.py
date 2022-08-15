@@ -97,7 +97,7 @@ class CaseStudies(models.Model):
 
 
     def __str__(self) :
-        return f"{self.field}"
+        return f"{self.field}  {self.pool_name}"
 
 class JoinCaseStudies(models.Model):
     casestudies_id = models.BigAutoField(primary_key=True)
