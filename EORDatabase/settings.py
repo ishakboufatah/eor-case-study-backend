@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1','http://sheordatabase.pythonanywhere.com/','sheordatabase.herokuapp.com']
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS =[
-    'http://localhost:8080'
+    'http://localhost:8080','https://sheordatabase.github.io/'
 ]
 
 # Application definition
