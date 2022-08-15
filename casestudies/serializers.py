@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology
+from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology,JoinCaseStudies
 
 class EORTechniquesTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,31 +14,34 @@ class CountrySerializer(serializers.ModelSerializer):
         model = Country
         fields = '__all__'
 class TaskSerializer(serializers.ModelSerializer):
-    country = serializers.SlugRelatedField(slug_field='Country', queryset=Country.objects.all())
-    EOR_Type= EORsubTypeSerializer( )
-    Lithology= serializers.SlugRelatedField(slug_field='Lithology', queryset=Lithology.objects.all())
+    country_id = serializers.SlugRelatedField(slug_field='country', queryset=Country.objects.raw("SELECT * from casestudies_country"))
+    eor_subtype_id= serializers.StringRelatedField()
+    lithology= serializers.SlugRelatedField(slug_field='lithology', queryset=Lithology.objects.raw("SELECT * from casestudies_lithology"))
     class Meta:
         model = CaseStudies
-        fields = ('CaseStudies_id', 'Field', 'Pool_Name','summary','image1','image2','image3',
-        'image4','image5','image6','Formation','country','EOR_Type','Flood_Type','Number_of_Wells',
-        'Number_of_EOR_Injectors','Number_of_EOR_Producers','Discovery_Date','EOR_start_year',
-        'Secondary_Recovery','EOR_1','EOR_2','EOR_3','EOR_4','Depth_m','Average_Pay_Thickness_m',
-        'Average_Permeability_md','Average_Porosity','Water_Saturation','Lithology','Initial_Pressure_kPa',
-        'Initial_Temperature_C','Oil_Gravity_API','Oil_Density_kgm3','Oil_Viscosity_15C_cp',
-        'Oil_Viscosity_Tr_cp','Salinity_of_Formation_Water_ppm','Presence_of_Natural_Fractures',
-        'Presence_of_Gas_Cap','Area_of_Project_ha','Primary_Recovery_Factor_fraction',
-        'Incremental_WF_Recovery_Factor_fraction','Incremental_EOR_Recovery_Factor_fraction',
-        'Total_Recovery_Factor_fraction','OOIP_E3m3','Remaining_Oil_in_Place_E3m3_after_Primary_EOR_Recovery',
-        'Remaining_Recoverable_Reserves_E3m3')
-"""      
+        fields = ('casestudies_id','field','pool_name','summary','image1','image2','image3','image4','image5','image6','formation',
+        'country_id','eor_subtype_id','flood_type','number_of_wells','number_of_eor_injectors','number_of_eor_producers',
+        'discovery_date','eor_start_year','secondary_recovery','eor_1','eor_2','eor_3','eor_4',
+        'depth_m','average_pay_thickness_m','average_permeability_md','average_porosity','water_saturation',
+        'lithology','initial_pressure_kpa','initial_temperature_c','oil_gravity_API','oil_density_kgm3',
+        'oil_viscosity_15c_cp','oil_viscosity_tr_cp','salinity_of_formation_water_ppm','presence_of_natural_fractures',
+        'presence_of_gas_cap','area_of_project_ha','primary_recovery_factor_fraction','incremental_wf_recovery_factor_fraction',
+        'incremental_eor_recovery_factor_fraction','total_recovery_factor_fraction','ooip_e3m3',
+        'remaining_oil_in_place_e3m3_after_primary_eor_recovery','remaining_recoverable_reserves_e3m3')
+class JoinCaseStudiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JoinCaseStudies
+        fields ='__all__'
 
-
-
-'Lithology','Initial_Pressure_kPa',
-        'Initial_Temperature_C','Oil_Gravity_API','Oil_Density_kgm3','Oil_Viscosity_15C_cp',
-        'Oil_Viscosity_Tr_cp','Salinity_of_Formation_Water_ppm','Presence_of_Natural_Fractures',
-        'Presence_of_Gas_Cap','Area_of_Project_ha','Primary_Recovery_Factor_fraction',
-        'Incremental_WF_Recovery_Factor_fraction','Incremental_EOR_Recovery_Factor_fraction',
-        'Total_Recovery_Factor_fraction','OOIP_E3m3','Remaining_Oil_in_Place_E3m3_after_Primary_EOR_Recovery',
-        'Remaining_Recoverable_Reserves_E3m3'
-"""
+        """
+        ('casestudies_id','field','pool_name','summary','image1','image2','image3','image4','image5','image6','formation',
+        'country','eor_type','eor_sub_type','flood_type','number_of_wells','number_of_eor_injectors','number_of_eor_producers',
+        'discovery_date','eor_start_year','secondary_recovery','eor_1','eor_2','eor_3','eor_4',
+        'depth_m','average_pay_thickness_m','average_permeability_md','average_porosity','water_saturation',
+        'lithology','initial_pressure_kpa','initial_temperature_c','oil_gravity_API','oil_density_kgm3',
+        'oil_viscosity_15c_cp','oil_viscosity_tr_cp','salinity_of_formation_water_ppm','presence_of_natural_fractures',
+        'presence_of_gas_cap','area_of_project_ha','primary_recovery_factor_fraction','incremental_wf_recovery_factor_fraction',
+        'incremental_eor_recovery_factor_fraction','total_recovery_factor_fraction','ooip_e3m3',
+        'remaining_oil_in_place_e3m3_after_primary_eor_recovery','remaining_recoverable_reserves_e3m3')
+        """
+     

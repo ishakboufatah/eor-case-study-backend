@@ -14,20 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from posixpath import basename
 from django.contrib import admin
 from django.urls import path, include
-from casestudies.views import TaskViewSet,CountryViewSet
+from casestudies.views import TaskViewSet,CountryViewSet,JoinMiscibleCaseStudiesViewSet,JoinChemicalCaseStudiesViewSet,ListJoinMiscibleViewSet
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
-router.register(r'CaseStudies',TaskViewSet)
+router1 = routers.DefaultRouter()
+# router.register(r'CaseStudies',TaskViewSet)
+router.register(r'CaseStudies',ListJoinMiscibleViewSet,basename='Miscible')
 router.register(r'Country',CountryViewSet)
-
 
 
 urlpatterns = [
     path('',include(router.urls)), 
     path('admin/', admin.site.urls),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
