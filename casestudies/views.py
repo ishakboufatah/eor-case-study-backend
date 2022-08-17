@@ -2,8 +2,8 @@
 #from httplib2 import Authentication
 
 from urllib import request
-from .models import CaseStudies,Country,JoinCaseStudies
-from .serializers import TaskSerializer,CountrySerializer,JoinCaseStudiesSerializer
+from .models import CaseStudies,Country,JoinCaseStudies,EORTechniques
+from .serializers import TaskSerializer,CountrySerializer,JoinCaseStudiesSerializer,EORTechniquesTypeSerializer
 import EORDatabase.urls  
 
 from rest_framework import viewsets
@@ -19,6 +19,11 @@ class CountryViewSet(viewsets.ModelViewSet):
     permission_classes =[DjangoModelPermissions]
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+
+class EORTechniquesViewSet(viewsets.ModelViewSet):
+    permission_classes =[DjangoModelPermissions]
+    queryset = EORTechniques.objects.all()
+    serializer_class = EORTechniquesTypeSerializer
     
 
 
