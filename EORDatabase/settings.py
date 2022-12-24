@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+# import pymysql
+
+# pymysql.install_as_MySQLdb()
 
 from pathlib import Path
 import os
@@ -28,7 +31,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1','http://sheordatabase.pythonanywhere.com/','sheordatabase.herokuapp.com']
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS =[
-    'http://localhost:8080','https://sheordatabase.github.io'
+    'http://localhost:8080','https://sheordatabase.github.io','https://ishakboufatah.github.io'
 ]
 
 # Application definition
@@ -81,16 +84,27 @@ WSGI_APPLICATION = 'EORDatabase.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd6rr40thoj2s7j',
+#         'USER': 'jveyxwjkqgpdro',
+#         'PASSWORD': 'bfebfc0802ae388fbba90a205fe56dcf7ba3881bc05d643f838eac49e527130e',
+#         'HOST': 'ec2-44-208-88-195.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd6rr40thoj2s7j',
-        'USER': 'jveyxwjkqgpdro',
-        'PASSWORD': 'bfebfc0802ae388fbba90a205fe56dcf7ba3881bc05d643f838eac49e527130e',
-        'HOST': 'ec2-44-208-88-195.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SHeorDatabase$database',
+        'USER': 'SHeorDatabase',
+        'PASSWORD': 'passwordmysql',
+        'HOST': 'SHeorDatabase.mysql.pythonanywhere-services.com',
+        # 'PORT':'5432',
     }
-}
+}  
 
 
 # Password validation
