@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology,JoinCaseStudies
+from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology,JoinCaseStudies,Rangeperm
 
 class EORTechniquesTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,4 +44,9 @@ class JoinCaseStudiesSerializer(serializers.ModelSerializer):
         'incremental_eor_recovery_factor_fraction','total_recovery_factor_fraction','ooip_e3m3',
         'remaining_oil_in_place_e3m3_after_primary_eor_recovery','remaining_recoverable_reserves_e3m3')
         """
+
+class RangepermSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rangeperm
+        fields = '__all__'
      
