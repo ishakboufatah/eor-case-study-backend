@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-bc^115h=!fv0ln5hcx1h63)obbgp0t0+r0e6ymh0)&*t6a%)nr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','http://sheordatabase.pythonanywhere.com/','sheordatabase.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','sheordatabase.pythonanywhere.com','sheordatabase.herokuapp.com']
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS =[
     'http://localhost:8080','https://sheordatabase.github.io','https://ishakboufatah.github.io'
