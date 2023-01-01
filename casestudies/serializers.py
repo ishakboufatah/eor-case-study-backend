@@ -53,4 +53,4 @@ class RangepermSerializer(serializers.ModelSerializer):
 class WWdisrtributionSerializer(serializers.ModelSerializer):
     class Meta:
         model = WWdisrtribution
-        fields = '__all__'
+        fields = ('eor_start_year','eor_type','country','count')
