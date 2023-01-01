@@ -2,8 +2,8 @@
 #from httplib2 import Authentication
 
 from urllib import request
-from .models import CaseStudies, Country, JoinCaseStudies, EORTechniques,Rangeperm
-from .serializers import TaskSerializer, CountrySerializer, JoinCaseStudiesSerializer, EORTechniquesTypeSerializer,RangepermSerializer
+from .models import CaseStudies, Country, JoinCaseStudies, EORTechniques,Rangeperm,WWdisrtribution
+from .serializers import TaskSerializer, CountrySerializer, JoinCaseStudiesSerializer, EORTechniquesTypeSerializer,RangepermSerializer,WWdisrtributionSerializer
 import EORDatabase.urls
 
 from rest_framework import viewsets
@@ -44,113 +44,46 @@ class JoinMiscibleCaseStudiesViewSet(viewsets.ModelViewSet):
     serializer_class = JoinCaseStudiesSerializer
 
 
+class WWdisrtributionViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    queryset = WWdisrtribution.objects.raw("""  Select 1 as id ,casestudies_casestudies.eor_start_year as eor_start_year ,casestudies_eortechniques.eor_type as eor_type, casestudies_country.country as country,
+      count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY eor_start_year,eor_type,country
+                                           """)
+    serializer_class = WWdisrtributionSerializer
+
+
 class RangepermViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissions]
 
-    queryset = Rangeperm.objects.raw("""  Select CASE WHEN casestudies_casestudies.average_permeability_md < 50 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[0 - 50] Miscible EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 50 and casestudies_casestudies.average_permeability_md < 100 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[50 - 100] Miscible EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 100 and casestudies_casestudies.average_permeability_md < 150 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[100 - 150] Miscible EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 150 and casestudies_casestudies.average_permeability_md < 200 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[150 - 200] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 200 and casestudies_casestudies.average_permeability_md < 250 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[200 - 250] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 250 and casestudies_casestudies.average_permeability_md < 300 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[250 - 300] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 300 and casestudies_casestudies.average_permeability_md < 350 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[300 - 350] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 350 and casestudies_casestudies.average_permeability_md < 400 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[350 - 400] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 400 and casestudies_casestudies.average_permeability_md < 450 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[400 - 450] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 450 and casestudies_casestudies.average_permeability_md < 500 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[450 - 500] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 500 and casestudies_casestudies.average_permeability_md < 600 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[500 - 600] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 600 and casestudies_casestudies.average_permeability_md < 700 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[600 - 700] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 700 and casestudies_casestudies.average_permeability_md < 800 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[700 - 800] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 800 and casestudies_casestudies.average_permeability_md < 900 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[800 - 900] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 900 and casestudies_casestudies.average_permeability_md < 1000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[900 - 1000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 1000 and casestudies_casestudies.average_permeability_md < 2000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[1000 - 2000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 2000 and casestudies_casestudies.average_permeability_md < 3000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[2000 - 3000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 3000 and casestudies_casestudies.average_permeability_md < 4000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[3000 - 4000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 4000 and casestudies_casestudies.average_permeability_md < 5000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[4000 - 5000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 5000 and casestudies_casestudies.average_permeability_md < 6000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[5000 - 6000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 6000 and casestudies_casestudies.average_permeability_md < 7000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[6000 - 7000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 7000 and casestudies_casestudies.average_permeability_md < 8000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[7000 - 8000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 8000 and casestudies_casestudies.average_permeability_md < 9000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[8000 - 9000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 9000 and casestudies_casestudies.average_permeability_md < 10000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '[9000 - 10000] Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 10000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '>10000 Miscible EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md < 50 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[0 - 50] Chemical EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 50 and casestudies_casestudies.average_permeability_md < 100 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[50 - 100] Chemical EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 100 and casestudies_casestudies.average_permeability_md < 150 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[100 - 150] Chemical EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 150 and casestudies_casestudies.average_permeability_md < 200 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[150 - 200] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 200 and casestudies_casestudies.average_permeability_md < 250 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[200 - 250] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 250 and casestudies_casestudies.average_permeability_md < 300 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[250 - 300] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 300 and casestudies_casestudies.average_permeability_md < 350 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[300 - 350] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 350 and casestudies_casestudies.average_permeability_md < 400 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[350 - 400] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 400 and casestudies_casestudies.average_permeability_md < 450 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[400 - 450] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 450 and casestudies_casestudies.average_permeability_md < 500 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[450 - 500] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 500 and casestudies_casestudies.average_permeability_md < 600 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[500 - 600] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 600 and casestudies_casestudies.average_permeability_md < 700 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[600 - 700] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 700 and casestudies_casestudies.average_permeability_md < 800 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[700 - 800] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 800 and casestudies_casestudies.average_permeability_md < 900 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[800 - 900] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 900 and casestudies_casestudies.average_permeability_md < 1000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[900 - 1000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 1000 and casestudies_casestudies.average_permeability_md < 2000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[1000 - 2000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 2000 and casestudies_casestudies.average_permeability_md < 3000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[2000 - 3000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 3000 and casestudies_casestudies.average_permeability_md < 4000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[3000 - 4000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 4000 and casestudies_casestudies.average_permeability_md < 5000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[4000 - 5000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 5000 and casestudies_casestudies.average_permeability_md < 6000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[5000 - 6000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 6000 and casestudies_casestudies.average_permeability_md < 7000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[6000 - 7000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 7000 and casestudies_casestudies.average_permeability_md < 8000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[7000 - 8000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 8000 and casestudies_casestudies.average_permeability_md < 9000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[8000 - 9000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 9000 and casestudies_casestudies.average_permeability_md < 10000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '[9000 - 10000] Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 10000 and casestudies_eortechniques.eor_type='Chemical EOR' THEN '>10000 Chemical EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md < 50 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[0 - 50] Thermal EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 50 and casestudies_casestudies.average_permeability_md < 100 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[50 - 100] Thermal EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 100 and casestudies_casestudies.average_permeability_md < 150 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[100 - 150] Thermal EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 150 and casestudies_casestudies.average_permeability_md < 200 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[150 - 200] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 200 and casestudies_casestudies.average_permeability_md < 250 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[200 - 250] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 250 and casestudies_casestudies.average_permeability_md < 300 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[250 - 300] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 300 and casestudies_casestudies.average_permeability_md < 350 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[300 - 350] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 350 and casestudies_casestudies.average_permeability_md < 400 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[350 - 400] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 400 and casestudies_casestudies.average_permeability_md < 450 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[400 - 450] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 450 and casestudies_casestudies.average_permeability_md < 500 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[450 - 500] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 500 and casestudies_casestudies.average_permeability_md < 600 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[500 - 600] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 600 and casestudies_casestudies.average_permeability_md < 700 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[600 - 700] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 700 and casestudies_casestudies.average_permeability_md < 800 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[700 - 800] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 800 and casestudies_casestudies.average_permeability_md < 900 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[800 - 900] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 900 and casestudies_casestudies.average_permeability_md < 1000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[900 - 1000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 1000 and casestudies_casestudies.average_permeability_md < 2000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[1000 - 2000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 2000 and casestudies_casestudies.average_permeability_md < 3000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[2000 - 3000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 3000 and casestudies_casestudies.average_permeability_md < 4000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[3000 - 4000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 4000 and casestudies_casestudies.average_permeability_md < 5000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[4000 - 5000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 5000 and casestudies_casestudies.average_permeability_md < 6000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[5000 - 6000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 6000 and casestudies_casestudies.average_permeability_md < 7000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[6000 - 7000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 7000 and casestudies_casestudies.average_permeability_md < 8000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[7000 - 8000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 8000 and casestudies_casestudies.average_permeability_md < 9000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[8000 - 9000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 9000 and casestudies_casestudies.average_permeability_md < 10000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '[9000 - 10000] Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 10000 and casestudies_eortechniques.eor_type='Thermal EOR' THEN '>10000 Thermal EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md < 50 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[0 - 50] WAG EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 50 and casestudies_casestudies.average_permeability_md < 100 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[50 - 100] WAG EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 100 and casestudies_casestudies.average_permeability_md < 150 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[100 - 150] WAG EOR' 
-                                            WHEN casestudies_casestudies.average_permeability_md >= 150 and casestudies_casestudies.average_permeability_md < 200 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[150 - 200] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 200 and casestudies_casestudies.average_permeability_md < 250 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[200 - 250] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 250 and casestudies_casestudies.average_permeability_md < 300 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[250 - 300] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 300 and casestudies_casestudies.average_permeability_md < 350 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[300 - 350] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 350 and casestudies_casestudies.average_permeability_md < 400 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[350 - 400] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 400 and casestudies_casestudies.average_permeability_md < 450 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[400 - 450] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 450 and casestudies_casestudies.average_permeability_md < 500 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[450 - 500] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 500 and casestudies_casestudies.average_permeability_md < 600 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[500 - 600] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 600 and casestudies_casestudies.average_permeability_md < 700 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[600 - 700] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 700 and casestudies_casestudies.average_permeability_md < 800 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[700 - 800] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 800 and casestudies_casestudies.average_permeability_md < 900 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[800 - 900] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 900 and casestudies_casestudies.average_permeability_md < 1000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[900 - 1000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 1000 and casestudies_casestudies.average_permeability_md < 2000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[1000 - 2000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 2000 and casestudies_casestudies.average_permeability_md < 3000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[2000 - 3000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 3000 and casestudies_casestudies.average_permeability_md < 4000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[3000 - 4000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 4000 and casestudies_casestudies.average_permeability_md < 5000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[4000 - 5000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 5000 and casestudies_casestudies.average_permeability_md < 6000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[5000 - 6000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 6000 and casestudies_casestudies.average_permeability_md < 7000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[6000 - 7000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 7000 and casestudies_casestudies.average_permeability_md < 8000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[7000 - 8000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 8000 and casestudies_casestudies.average_permeability_md < 9000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[8000 - 9000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 9000 and casestudies_casestudies.average_permeability_md < 10000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '[9000 - 10000] WAG EOR'
-                                            WHEN casestudies_casestudies.average_permeability_md >= 10000 and casestudies_eortechniques.eor_type='WAG EOR' THEN '>10000 WAG EOR'
-                                            else 'OTHERS' END AS rangeperm, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeperm
+    queryset = Rangeperm.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.average_permeability_md <= 50 THEN '[0 - 50] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 50 and casestudies_casestudies.average_permeability_md <= 100 THEN ']50 - 100] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 100 and casestudies_casestudies.average_permeability_md <= 150 THEN ']100 - 150] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 150 and casestudies_casestudies.average_permeability_md <= 200 THEN ']150 - 200] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 200 and casestudies_casestudies.average_permeability_md <= 250 THEN ']200 - 250] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 250 and casestudies_casestudies.average_permeability_md <= 300 THEN ']250 - 300] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 300 and casestudies_casestudies.average_permeability_md <= 350 THEN ']300 - 350] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 350 and casestudies_casestudies.average_permeability_md <= 400 THEN ']350 - 400] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 400 and casestudies_casestudies.average_permeability_md <= 450 THEN ']400 - 450] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 450 and casestudies_casestudies.average_permeability_md <= 500 THEN ']450 - 500] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 500 and casestudies_casestudies.average_permeability_md <= 600 THEN ']500 - 600] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 600 and casestudies_casestudies.average_permeability_md <= 700 THEN ']600 - 700] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 700 and casestudies_casestudies.average_permeability_md <= 800 THEN ']700 - 800] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 800 and casestudies_casestudies.average_permeability_md <= 900 THEN ']800 - 900] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 900 and casestudies_casestudies.average_permeability_md <= 1000 THEN ']900 - 1000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 1000 and casestudies_casestudies.average_permeability_md <= 2000 THEN ']1000 - 2000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 2000 and casestudies_casestudies.average_permeability_md <= 3000 THEN ']2000 - 3000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 3000 and casestudies_casestudies.average_permeability_md <= 4000 THEN ']3000 - 4000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 4000 and casestudies_casestudies.average_permeability_md <= 5000 THEN ']4000 - 5000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 5000 and casestudies_casestudies.average_permeability_md <= 6000 THEN ']5000 - 6000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 6000 and casestudies_casestudies.average_permeability_md <= 7000 THEN ']6000 - 7000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 7000 and casestudies_casestudies.average_permeability_md <= 8000 THEN ']7000 - 8000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 8000 and casestudies_casestudies.average_permeability_md <= 9000 THEN ']8000 - 9000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 9000 and casestudies_casestudies.average_permeability_md <= 10000 THEN ']9000 - 10000] (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 10000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '> 10000 (md)'
+                                            else 'OTHERS' END AS rangeperm, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeperm,eor_type
                                            """)
     serializer_class = RangepermSerializer
-
 
 class ListJoinMiscibleViewSet(viewsets.ModelViewSet):
 

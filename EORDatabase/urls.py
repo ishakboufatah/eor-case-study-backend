@@ -17,7 +17,7 @@ Including another URLconf
 from posixpath import basename
 from django.contrib import admin
 from django.urls import path, include
-from casestudies.views import TaskViewSet,CountryViewSet,JoinMiscibleCaseStudiesViewSet,JoinChemicalCaseStudiesViewSet,ListJoinMiscibleViewSet,EORTechniquesViewSet,RangepermViewSet
+from casestudies.views import TaskViewSet,CountryViewSet,JoinMiscibleCaseStudiesViewSet,JoinChemicalCaseStudiesViewSet,ListJoinMiscibleViewSet,EORTechniquesViewSet,RangepermViewSet,WWdisrtributionViewSet
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,6 +29,7 @@ router.register(r'CaseStudies',ListJoinMiscibleViewSet,basename='Miscible')
 router.register(r'Country',CountryViewSet)
 router.register(r'EORTechniques',EORTechniquesViewSet)
 router.register(r'Rangeperm',RangepermViewSet)
+router.register(r'WWdisrtribution',WWdisrtributionViewSet)
 
 
 urlpatterns = [

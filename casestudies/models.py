@@ -150,7 +150,17 @@ class IMAGE(models.Model):
     image1 = models.ImageField(upload_to='image/',null=True,)
 
 class Rangeperm(models.Model):
+    id= models.BigAutoField(primary_key=True)
     rangeperm= models.CharField(max_length=50,blank=True)
     count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
     def __str__(self) :
         return f"{self.rangeperm}"
+class WWdisrtribution(models.Model):
+    casestudies_id= models.BigAutoField(primary_key=True)
+    eor_start_year = models.DecimalField(max_digits=10, decimal_places=4,null=True,blank=True)
+    country = models.CharField(max_length=50,blank=True)
+    eor_type = models.CharField(max_length=50)
+    count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
+    
+    def __str__(self) :
+        return f"{self.eor_start_year}"
