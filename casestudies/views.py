@@ -48,7 +48,7 @@ class WWdisrtributionViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissions]
 
     queryset = WWdisrtribution.objects.raw("""  Select casestudies_casestudies.casestudies_id as casestudies_id,casestudies_casestudies.eor_start_year as eor_start_year ,casestudies_eortechniques.eor_type as eor_type, casestudies_country.country as country,
-      count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY eor_start_year,eor_type,country
+      count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id WHERE eor_start_year IS NOT NULL AND eor_type IS NOT NULL AND country IS NOT NULL GROUP BY eor_start_year,eor_type,country 
                                            """)
     serializer_class = WWdisrtributionSerializer
 
