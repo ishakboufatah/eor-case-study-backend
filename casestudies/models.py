@@ -156,6 +156,39 @@ class Rangeperm(models.Model):
     count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
     def __str__(self) :
         return f"{self.rangeperm}"
+
+class Rangepor(models.Model):
+    id= models.BigAutoField(primary_key=True)
+    rangepor= models.CharField(max_length=50,blank=True)
+    eor_type = models.CharField(max_length=50)
+    count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
+    def __str__(self) :
+        return f"{self.rangepor}"
+
+class RangeRT(models.Model):
+    id= models.BigAutoField(primary_key=True)
+    rangeRT= models.CharField(max_length=50,blank=True)
+    eor_type = models.CharField(max_length=50)
+    count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
+    def __str__(self) :
+        return f"{self.rangeRT}"
+
+class RangeSal(models.Model):
+    id= models.BigAutoField(primary_key=True)
+    rangeSal= models.CharField(max_length=50,blank=True)
+    eor_type = models.CharField(max_length=50)
+    count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
+    def __str__(self) :
+        return f"{self.rangeSal}"
+
+class RangeVisc(models.Model):
+    id= models.BigAutoField(primary_key=True)
+    rangeVisc= models.CharField(max_length=50,blank=True)
+    eor_type = models.CharField(max_length=50)
+    count= models.DecimalField(max_digits=10, decimal_places=0,null=True,blank=True)
+    def __str__(self) :
+        return f"{self.rangeVisc}"
+        
 class WWdisrtribution(models.Model):
     casestudies_id= models.BigAutoField(primary_key=True)
     eor_start_year = models.DecimalField(max_digits=10, decimal_places=4,null=True,blank=True)

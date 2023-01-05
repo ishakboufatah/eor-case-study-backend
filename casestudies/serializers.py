@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology,JoinCaseStudies,Rangeperm,WWdisrtribution
+from .models import CaseStudies ,Country,EORTechniques,EORsubType,Lithology,JoinCaseStudies,Rangeperm,Rangepor,RangeRT,RangeSal,RangeVisc,WWdisrtribution
 
 class EORTechniquesTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,6 +48,25 @@ class JoinCaseStudiesSerializer(serializers.ModelSerializer):
 class RangepermSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rangeperm
+        fields = '__all__'
+
+class RangeporSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rangepor
+        fields = '__all__'
+
+class RangeRTSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RangeRT
+        fields = '__all__'
+
+class RangeSalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RangeSal
+        fields = '__all__'
+class RangeViscSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RangeVisc
         fields = '__all__'
 
 class WWdisrtributionSerializer(serializers.ModelSerializer):

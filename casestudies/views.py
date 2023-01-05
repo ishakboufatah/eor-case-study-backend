@@ -2,8 +2,8 @@
 #from httplib2 import Authentication
 
 from urllib import request
-from .models import CaseStudies, Country, JoinCaseStudies, EORTechniques,Rangeperm,WWdisrtribution
-from .serializers import TaskSerializer, CountrySerializer, JoinCaseStudiesSerializer, EORTechniquesTypeSerializer,RangepermSerializer,WWdisrtributionSerializer
+from .models import CaseStudies, Country, JoinCaseStudies, EORTechniques,Rangeperm,Rangepor,RangeRT,RangeSal,RangeVisc,WWdisrtribution
+from .serializers import TaskSerializer, CountrySerializer, JoinCaseStudiesSerializer, EORTechniquesTypeSerializer,RangepermSerializer,RangeporSerializer,RangeRTSerializer,RangeSalSerializer,RangeViscSerializer,WWdisrtributionSerializer
 import EORDatabase.urls
 
 from rest_framework import viewsets
@@ -80,11 +80,38 @@ class RangepermViewSet(viewsets.ModelViewSet):
                                             WHEN casestudies_casestudies.average_permeability_md > 7000 and casestudies_casestudies.average_permeability_md <= 8000 THEN ']7000 - 8000] (md)'
                                             WHEN casestudies_casestudies.average_permeability_md > 8000 and casestudies_casestudies.average_permeability_md <= 9000 THEN ']8000 - 9000] (md)'
                                             WHEN casestudies_casestudies.average_permeability_md > 9000 and casestudies_casestudies.average_permeability_md <= 10000 THEN ']9000 - 10000] (md)'
-                                            WHEN casestudies_casestudies.average_permeability_md > 10000 and casestudies_eortechniques.eor_type='Miscible EOR' THEN '> 10000 (md)'
+                                            WHEN casestudies_casestudies.average_permeability_md > 10000 THEN '> 10000 (md)'
                                             else 'OTHERS' END AS rangeperm, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeperm,eor_type
                                            """)
     serializer_class = RangepermSerializer
 
+
+class RangeporViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    queryset = Rangepor.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.average_porosity <= 0.05 THEN '[0 - 0.05]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.05 and casestudies_casestudies.average_porosity <= 0.1 THEN ']0.05 - 0.1]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.1 and casestudies_casestudies.average_porosity <= 0.15 THEN ']0.1 - 0.15]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.15 and casestudies_casestudies.average_porosity <= 0.2 THEN ']0.15- 0.2]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.2 and casestudies_casestudies.average_porosity <= 0.25 THEN ']0.2 - 0.25]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.25 and casestudies_casestudies.average_porosity <= 0.3 THEN ']0.25 - 0.3]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.3 and casestudies_casestudies.average_porosity <= 0.35 THEN ']0.3 - 0.35]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.35 and casestudies_casestudies.average_porosity <= 0.4 THEN ']0.35 - 0.4]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.4 and casestudies_casestudies.average_porosity <= 0.45 THEN ']0.4 - 0.45]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.45 and casestudies_casestudies.average_porosity <= 0.5 THEN ']0.45 - 0.5]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.5 and casestudies_casestudies.average_porosity <= 0.55 THEN ']0.5 - 0.55]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.55 and casestudies_casestudies.average_porosity <= 0.6 THEN ']0.55 - 0.6]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.6 and casestudies_casestudies.average_porosity <= 0.65 THEN ']0.6 - 0.65]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.65 and casestudies_casestudies.average_porosity <= 0.7 THEN ']0.65 - 0.7]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.7 and casestudies_casestudies.average_porosity <= 0.75 THEN ']0.7 - 0.75]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.75 and casestudies_casestudies.average_porosity <= 0.8 THEN ']0.75 - 0.8]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.8 and casestudies_casestudies.average_porosity <= 0.85 THEN ']0.8 - 0.85]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.85 and casestudies_casestudies.average_porosity <= 0.9 THEN ']0.85 - 0.9]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.9 and casestudies_casestudies.average_porosity <= 0.95 THEN ']0.9 - 0.95]'
+                                            WHEN casestudies_casestudies.average_porosity > 0.95 and casestudies_casestudies.average_porosity <= 1 THEN ']0.95 - 1]'
+                                            else 'OTHERS' END AS rangepor, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangepor,eor_type
+                                           """)
+    serializer_class = RangeporSerializer
 class ListJoinMiscibleViewSet(viewsets.ModelViewSet):
 
     permission_classes = [DjangoModelPermissions]
