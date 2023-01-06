@@ -122,6 +122,38 @@ class RangeporViewSet(viewsets.ModelViewSet):
                                             else 'OTHERS' END AS rangepor, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangepor,eor_type
                                            """)
     serializer_class = RangeporSerializer
+class RangeRTViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    queryset = RangeRT.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.initial_temperature_c <= 15 THEN ' < 15  (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 15 and casestudies_casestudies.initial_temperature_c <= 20 THEN ']15 - 20] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 20 and casestudies_casestudies.initial_temperature_c <= 25 THEN ']20 - 25] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 25 and casestudies_casestudies.initial_temperature_c <= 30 THEN ']25 - 30] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 30 and casestudies_casestudies.initial_temperature_c <= 35 THEN ']30 - 35] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 35 and casestudies_casestudies.initial_temperature_c <= 40 THEN ']35 - 40] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 40 and casestudies_casestudies.initial_temperature_c <= 45 THEN ']40 - 45] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 45 and casestudies_casestudies.initial_temperature_c <= 50 THEN ']45 - 50] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 50 and casestudies_casestudies.initial_temperature_c <= 55 THEN ']50 - 55] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 55 and casestudies_casestudies.initial_temperature_c <= 60 THEN ']55 - 60] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 60 and casestudies_casestudies.initial_temperature_c <= 65 THEN ']60 - 65] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 65 and casestudies_casestudies.initial_temperature_c <= 70 THEN ']65 - 70] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 70 and casestudies_casestudies.initial_temperature_c <= 75 THEN ']70 - 75] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 75 and casestudies_casestudies.initial_temperature_c <= 80 THEN ']75 - 80] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 80 and casestudies_casestudies.initial_temperature_c <= 85 THEN ']80 - 85] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 85 and casestudies_casestudies.initial_temperature_c <= 90 THEN ']85 - 90] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 90 and casestudies_casestudies.initial_temperature_c <= 95 THEN ']90 - 95] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 95 and casestudies_casestudies.initial_temperature_c <= 100 THEN ']95 - 100] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 100 and casestudies_casestudies.initial_temperature_c <= 105 THEN ']100 - 105] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 105 and casestudies_casestudies.initial_temperature_c <= 110 THEN ']105 - 110] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 110 and casestudies_casestudies.initial_temperature_c <= 115 THEN ']110 - 115] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 115 and casestudies_casestudies.initial_temperature_c <= 120 THEN ']115 - 120] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 125 and casestudies_casestudies.initial_temperature_c <= 125 THEN ']120 - 125] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 125 and casestudies_casestudies.initial_temperature_c <= 130 THEN ']125 - 130] (C)'
+                                            WHEN casestudies_casestudies.initial_temperature_c > 130 THEN ' > 130 (C)'
+                                            else 'OTHERS' END AS rangeRT, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeRT,eor_type
+                                           """)
+    serializer_class = RangeRTSerializer
+
 class ListJoinMiscibleViewSet(viewsets.ModelViewSet):
 
     permission_classes = [DjangoModelPermissions]
