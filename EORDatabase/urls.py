@@ -17,7 +17,7 @@ Including another URLconf
 from posixpath import basename
 from django.contrib import admin
 from django.urls import path, include
-from casestudies.views import TaskViewSet,CountryViewSet,JoinMiscibleCaseStudiesViewSet,JoinChemicalCaseStudiesViewSet,ListJoinMiscibleViewSet,EORTechniquesViewSet,RangepermViewSet,RangeporViewSet,RangeRTViewSet,WWdisrtributionViewSet
+from casestudies.views import TaskViewSet,CountryViewSet,JoinMiscibleCaseStudiesViewSet,JoinChemicalCaseStudiesViewSet,ListJoinMiscibleViewSet,EORTechniquesViewSet,RangepermViewSet,RangeporViewSet,RangeRTViewSet,RangeSalViewSet,WWdisrtributionViewSet
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
@@ -31,6 +31,7 @@ router.register(r'EORTechniques',EORTechniquesViewSet)
 router.register(r'Rangeperm',RangepermViewSet)
 router.register(r'Rangepor',RangeporViewSet)
 router.register(r'RangeRT',RangeRTViewSet)
+router.register(r'RangeSal',RangeSalViewSet)
 router.register(r'WWdisrtribution',WWdisrtributionViewSet)
 
 

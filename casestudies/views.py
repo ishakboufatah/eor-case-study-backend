@@ -153,6 +153,44 @@ class RangeRTViewSet(viewsets.ModelViewSet):
                                             else 'OTHERS' END AS rangeRT, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeRT,eor_type
                                            """)
     serializer_class = RangeRTSerializer
+class RangeSalViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    queryset = RangeSal.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.salinity_of_formation_water_ppm <= 10000 THEN '[0 - 10000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 10000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 20000 THEN ']10000 - 20000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 20000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 30000 THEN ']20000 - 30000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 30000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 40000 THEN ']30000 - 40000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 40000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 50000 THEN ']40000 - 50000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 50000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 60000 THEN ']50000 - 60000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 60000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 70000 THEN ']60000 - 70000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 70000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 80000 THEN ']70000 - 80000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 80000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 90000 THEN ']80000 - 90000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 90000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 10000 THEN ']90000 - 100000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 10000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 110000 THEN ']100000 - 110000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 11000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 120000 THEN ']110000 - 120000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 12000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 130000 THEN ']120000 - 130000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 13000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 140000 THEN ']130000 - 140000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 14000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 150000 THEN ']140000 - 150000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 15000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 160000 THEN ']150000 - 160000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 16000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 170000 THEN ']160000 - 170000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 17000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 180000 THEN ']170000 - 180000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 18000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 190000 THEN ']180000 - 190000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 19000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 200000 THEN ']190000 - 200000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 20000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 210000 THEN ']200000 - 210000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 21000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 220000 THEN ']210000 - 220000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 22000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 230000 THEN ']220000 - 230000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 23000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 240000 THEN ']230000 - 240000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 24000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 250000 THEN ']240000 - 250000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 25000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 260000 THEN ']250000 - 260000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 26000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 270000 THEN ']260000 - 270000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 27000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 280000 THEN ']270000 - 280000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 28000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 290000 THEN ']280000 - 290000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 29000 and casestudies_casestudies.salinity_of_formation_water_ppm <= 300000 THEN ']290000 - 300000] (ppm)'
+                                            WHEN casestudies_casestudies.salinity_of_formation_water_ppm > 30000 THEN '> 300000 (ppm)'
+                                            else 'OTHERS' END AS rangeSal, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeSal,eor_type
+                                           """)
+    serializer_class = RangeSalSerializer
+
 
 class ListJoinMiscibleViewSet(viewsets.ModelViewSet):
 
