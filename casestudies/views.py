@@ -191,6 +191,41 @@ class RangeSalViewSet(viewsets.ModelViewSet):
                                            """)
     serializer_class = RangeSalSerializer
 
+class RangeViscViewSet(viewsets.ModelViewSet):
+    permission_classes = [DjangoModelPermissions]
+
+    queryset = RangeVisc.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.oil_viscosity_15c_cp <= 10 THEN '[0 - 10] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 10 and casestudies_casestudies.oil_viscosity_15c_cp <= 20 THEN ']10 - 20] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 20 and casestudies_casestudies.oil_viscosity_15c_cp <= 30 THEN ']20 - 30] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 30 and casestudies_casestudies.oil_viscosity_15c_cp <= 40 THEN ']30 - 40] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 40 and casestudies_casestudies.oil_viscosity_15c_cp <= 50 THEN ']40 - 50] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 50 and casestudies_casestudies.oil_viscosity_15c_cp <= 60 THEN ']50 - 60] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 60 and casestudies_casestudies.oil_viscosity_15c_cp <= 70 THEN ']60 - 70] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 70 and casestudies_casestudies.oil_viscosity_15c_cp <= 80 THEN ']70 - 80] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 80 and casestudies_casestudies.oil_viscosity_15c_cp <= 90 THEN ']80 - 90] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 90 and casestudies_casestudies.oil_viscosity_15c_cp <= 100 THEN ']90 - 100] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 100 and casestudies_casestudies.oil_viscosity_15c_cp <= 200 THEN ']100 - 200] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 200 and casestudies_casestudies.oil_viscosity_15c_cp <= 300 THEN ']200 - 300] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 300 and casestudies_casestudies.oil_viscosity_15c_cp <= 400 THEN ']300 - 400] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 400 and casestudies_casestudies.oil_viscosity_15c_cp <= 500 THEN ']400 - 500] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 500 and casestudies_casestudies.oil_viscosity_15c_cp <= 600 THEN ']500 - 600] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 600 and casestudies_casestudies.oil_viscosity_15c_cp <= 700 THEN ']600 - 700] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 700 and casestudies_casestudies.oil_viscosity_15c_cp <= 800 THEN ']700 - 800] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 800 and casestudies_casestudies.oil_viscosity_15c_cp <= 900 THEN ']800 - 900] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 900 and casestudies_casestudies.oil_viscosity_15c_cp <= 1000 THEN ']900 - 1000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 1000 and casestudies_casestudies.oil_viscosity_15c_cp <= 2000 THEN ']1000 - 2000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 2000 and casestudies_casestudies.oil_viscosity_15c_cp <= 3000 THEN ']2000 - 3000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 3000 and casestudies_casestudies.oil_viscosity_15c_cp <= 4000 THEN ']3000 - 4000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 4000 and casestudies_casestudies.oil_viscosity_15c_cp <= 5000 THEN ']4000 - 5000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 5000 and casestudies_casestudies.oil_viscosity_15c_cp <= 6000 THEN ']5000 - 6000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 6000 and casestudies_casestudies.oil_viscosity_15c_cp <= 7000 THEN ']6000 - 7000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 7000 and casestudies_casestudies.oil_viscosity_15c_cp <= 8000 THEN ']7000 - 8000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 8000 and casestudies_casestudies.oil_viscosity_15c_cp <= 9000 THEN ']8000 - 9000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 9000 and casestudies_casestudies.oil_viscosity_15c_cp <= 10000 THEN ']9000 - 10000] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 10000 THEN '> 10000 (cp)'
+                                            else 'OTHERS' END AS rangeVisc, count(1) as count FROM casestudies_casestudies left JOIN casestudies_eorsubtype ON casestudies_casestudies.eor_subtype_id=casestudies_eorsubtype.eor_subtype_id left JOIN casestudies_eortechniques ON casestudies_eorsubtype.eor_techniques_id=casestudies_eortechniques.eor_techniques_id left JOIN casestudies_country on casestudies_casestudies.country_id=casestudies_country.country_id GROUP BY rangeVisc,eor_type
+                                           """)
+    serializer_class = RangeViscSerializer
 
 class ListJoinMiscibleViewSet(viewsets.ModelViewSet):
 
