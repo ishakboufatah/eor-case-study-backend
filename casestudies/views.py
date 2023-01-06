@@ -194,7 +194,16 @@ class RangeSalViewSet(viewsets.ModelViewSet):
 class RangeViscViewSet(viewsets.ModelViewSet):
     permission_classes = [DjangoModelPermissions]
 
-    queryset = RangeVisc.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.oil_viscosity_15c_cp <= 10 THEN '[0 - 10] (cp)'
+    queryset = RangeVisc.objects.raw("""  Select 1 as id ,casestudies_eortechniques.eor_type as eor_type ,CASE WHEN casestudies_casestudies.oil_viscosity_15c_cp <= 1 THEN '[0 - 1] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 1 and casestudies_casestudies.oil_viscosity_15c_cp <= 2 THEN ']1 - 2] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 2 and casestudies_casestudies.oil_viscosity_15c_cp <= 3 THEN ']2 - 3] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 3 and casestudies_casestudies.oil_viscosity_15c_cp <= 4 THEN ']3 - 4] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 4 and casestudies_casestudies.oil_viscosity_15c_cp <= 5 THEN ']4 - 5] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 5 and casestudies_casestudies.oil_viscosity_15c_cp <= 6 THEN ']5 - 6] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 6 and casestudies_casestudies.oil_viscosity_15c_cp <= 7 THEN ']6 - 7] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 7 and casestudies_casestudies.oil_viscosity_15c_cp <= 8 THEN ']7 - 8] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 8 and casestudies_casestudies.oil_viscosity_15c_cp <= 9 THEN ']8 - 9] (cp)'
+                                            WHEN casestudies_casestudies.oil_viscosity_15c_cp > 9 and casestudies_casestudies.oil_viscosity_15c_cp <= 10 THEN ']9 - 10] (cp)'
                                             WHEN casestudies_casestudies.oil_viscosity_15c_cp > 10 and casestudies_casestudies.oil_viscosity_15c_cp <= 20 THEN ']10 - 20] (cp)'
                                             WHEN casestudies_casestudies.oil_viscosity_15c_cp > 20 and casestudies_casestudies.oil_viscosity_15c_cp <= 30 THEN ']20 - 30] (cp)'
                                             WHEN casestudies_casestudies.oil_viscosity_15c_cp > 30 and casestudies_casestudies.oil_viscosity_15c_cp <= 40 THEN ']30 - 40] (cp)'
